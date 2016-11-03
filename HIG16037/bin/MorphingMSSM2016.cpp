@@ -79,6 +79,8 @@ int main(int argc, char** argv) {
   bool poisson_bbb = false;
   bool do_w_weighting = true;
   bool zmm_fit = true;
+  string cat_sig="btag";
+  string cat_bkg="nobtag";
   po::variables_map vm;
   po::options_description config("configuration");
   config.add_options()
@@ -98,7 +100,9 @@ int main(int argc, char** argv) {
     ("zmm_fit", po::value<bool>(&zmm_fit)->default_value(true))
     ("check_neg_bins", po::value<bool>(&check_neg_bins)->default_value(false))
     ("poisson_bbb", po::value<bool>(&poisson_bbb)->default_value(false))
-    ("w_weighting", po::value<bool>(&do_w_weighting)->default_value(false));
+    ("w_weighting", po::value<bool>(&do_w_weighting)->default_value(false))
+    ("cat_sig", po::value<string>(&cat_sig)->default_value("btag"))
+    ("cat_bkg", po::value<string>(&cat_bkg)->default_value("nobtag"));
   po::store(po::command_line_parser(argc, argv).options(config).run(), vm);
   po::notify(vm);
 
@@ -111,7 +115,10 @@ int main(int argc, char** argv) {
   input_dir["tt"]  = string(getenv("CMSSW_BASE")) + "/src/CombineHarvester/HIG16037/shapes/"+input_folder_tt+"/";
   input_dir["zmm"]  = string(getenv("CMSSW_BASE")) + "/src/CombineHarvester/HIG16037/shapes/"+input_folder_zmm+"/";
 
-  VString chns = {"mt","et","tt","em"};
+  VString chns =
+  //    {"tt"};
+        {"mt"};
+  //    {"tt","mt","et","em"};
   if (zmm_fit) chns.push_back("zmm");
 
   RooRealVar mA(mass.c_str(), mass.c_str(), 90., 3200.);
@@ -153,23 +160,23 @@ int main(int argc, char** argv) {
   //
   map<string,Categories> cats;
   cats["et_13TeV"] = {
-    {8, "et_nobtag"},
-    {9, "et_btag"}
+    {8, "et_"+cat_bkg},
+    {9, "et_"+cat_sig}
     };
 
   cats["em_13TeV"] = {
-    {8, "em_nobtag"},
-    {9, "em_btag"}
+    {8, "em_"+cat_bkg},
+    {9, "em_"+cat_sig}
     };
 
   cats["tt_13TeV"] = {
-    {8, "tt_nobtag"},
-    {9, "tt_btag"}
+    {8, "tt_"+cat_bkg},
+    {9, "tt_"+cat_sig}
     };
 
   cats["mt_13TeV"] = {
-    {8, "mt_nobtag"},
-    {9, "mt_btag"}
+    {8, "mt_"+cat_bkg},
+    {9, "mt_"+cat_sig}
     };
 
   cats["zmm_13TeV"] = {

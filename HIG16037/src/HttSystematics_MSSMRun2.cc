@@ -235,7 +235,7 @@ void AddMSSMRun2Systematics(CombineHarvester & cb, int control_region, bool zmm_
 
   // Tau-related systematics
   // -----------------------
-  cb.cp().process(JoinStr({signal, {"ZTT","VVT","TTT"}})).channel({"et","mt","tt"}).AddSyst(cb,
+  /*cb.cp().process(JoinStr({signal, {"ZTT","VVT","TTT"}})).channel({"et","mt","tt"}).AddSyst(cb,
     "CMS_eff_t_$ERA", "lnN", SystMap<channel>::init
     ({"et", "mt"}, 1.05)
     ({"tt"},       1.10));
@@ -262,7 +262,7 @@ void AddMSSMRun2Systematics(CombineHarvester & cb, int control_region, bool zmm_
   // Electron energy scale
   // ---------------------
   cb.cp().process(JoinStr({signal, {"ZTT"}})).channel({"em"}).AddSyst(cb,
-    "CMS_scale_e_$CHANNEL_$ERA", "shape", SystMap<>::init(1.00));
+    "CMS_scale_e_$CHANNEL_$ERA", "shape", SystMap<>::init(1.00));*/
 
 
   // Recoil corrections

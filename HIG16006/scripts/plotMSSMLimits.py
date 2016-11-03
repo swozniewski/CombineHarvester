@@ -160,7 +160,7 @@ for src in args.input:
     # 'limit.json:X:Title="Blah",LineColor=4,...' =>
     # as before but also apply style options to TGraph
     elif len(splitsrc) >= 2:
-        settings = {}
+	settings = {}
         settings['Title'] = src
         if args.auto_style is not None:
             nm = 'default'
@@ -181,7 +181,8 @@ for src in args.input:
             axis = plot.CreateAxisHists(len(pads), graphs[-1], True)
             DrawAxisHists(pads, axis, pads[0])
         graphs[-1].Draw('PLSAME')
-        legend.AddEntry(graphs[-1], '', 'PL')
+        if "Title" in splitsrc[2]:
+		legend.AddEntry(graphs[-1], '', 'PL')
 
 
 
